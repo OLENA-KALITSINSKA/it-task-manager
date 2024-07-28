@@ -54,7 +54,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ("username", "email", "password1", "password2")
 
 
 class TeamForm(forms.ModelForm):
@@ -66,7 +66,7 @@ class TeamForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        fields = ['name', 'members']
+        fields = ["name", "members"]
 
 
 class TaskForm(forms.ModelForm):
@@ -82,14 +82,14 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = [
-            'name',
-            'description',
-            'deadline',
-            'priority',
-            'task_type',
-            'assignees',
-            'tags',
-            'project'
+            "name",
+            "description",
+            "deadline",
+            "priority",
+            "task_type",
+            "assignees",
+            "tags",
+            "project"
             ]
 
 
