@@ -43,18 +43,18 @@ def index(request):
 
 class UserTaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
-    template_name = 'task_manager/user_tasks.html'
-    context_object_name = 'user_task_list'
+    template_name = "task_manager/user_tasks.html"
+    context_object_name = "user_task_list"
 
     def get_queryset(self):
-        return Task.objects.filter(assignees=self.request.user).order_by('-id')
+        return Task.objects.filter(assignees=self.request.user).order_by("-id")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         deadline_warning_date = datetime.now().date() + timedelta(days=3)
 
-        context['deadline_warning_date'] = deadline_warning_date
+        context["deadline_warning_date"] = deadline_warning_date
         return context
 
 
@@ -72,8 +72,8 @@ def calculate_completed_percentage():
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
-    template_name = 'task_manager/task_list.html'
-    context_object_name = 'task_list'
+    template_name = "task_manager/task_list.html"
+    context_object_name = "task_list"
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -88,7 +88,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Task.objects.all().order_by('-id')
+        queryset = Task.objects.all().order_by("-id")
         form = TaskSearchForm(self.request.GET)
         if form.is_valid():
             return queryset.filter(name__icontains=form.cleaned_data["name"])
@@ -113,20 +113,20 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
-    template_name = 'task_manager/task_confirm_delete.html'
-    success_url = reverse_lazy('task_manager:task-list')
+    template_name = "task_manager/task_confirm_delete.html"
+    success_url = reverse_lazy("task_manager:task-list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         task = self.get_object()
-        context['related_workers'] = task.assignees.all()
+        context["related_workers"] = task.assignees.all()
         return context
 
 
 class CompletedTaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
-    template_name = 'task_manager/completed_task_list.html'
-    context_object_name = 'completed_tasks'
+    template_name = "task_manager/completed_task_list.html"
+    context_object_name = "completed_tasks"
     paginate_by = 10
 
     def get_queryset(self):
@@ -146,7 +146,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Worker.objects.all().order_by('username')
+        queryset = Worker.objects.all().order_by("username")
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid():
             return queryset.filter(
@@ -162,16 +162,16 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         worker = self.get_object()
 
-        context['assigned_tasks'] = worker.task_set.filter(is_completed=False)
-        context['completed_tasks'] = worker.task_set.filter(is_completed=True)
+        context["assigned_tasks"] = worker.task_set.filter(is_completed=False)
+        context["completed_tasks"] = worker.task_set.filter(is_completed=True)
 
-        context['team'] = worker.team
+        context["team"] = worker.team
         if worker.team:
-            context['team_members'] = worker.team.members.all()
-            context['projects'] = worker.team.projects.all()
+            context["team_members"] = worker.team.members.all()
+            context["projects"] = worker.team.projects.all()
         else:
-            context['team_members'] = []
-            context['projects'] = Project.objects.none()
+            context["team_members"] = []
+            context["projects"] = Project.objects.none()
 
         return context
 
@@ -184,7 +184,7 @@ class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
-    template_name = 'task_manager/worker_form.html'
+    template_name = "task_manager/worker_form.html"
     fields = [
         "username",
         "first_name",
@@ -198,20 +198,20 @@ class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Worker
-    template_name = 'task_manager/worker_confirm_delete.html'
-    success_url = reverse_lazy('worker-list')
+    template_name = "task_manager/worker_confirm_delete.html"
+    success_url = reverse_lazy("worker-list")
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
     model = Position
-    template_name = 'task_manager/position_list.html'
-    context_object_name = 'positions'
+    template_name = "task_manager/position_list.html"
+    context_object_name = "positions"
 
 
 class PositionDetailView(LoginRequiredMixin, generic.DetailView):
     model = Position
-    template_name = 'task_manager/position_detail.html'
-    context_object_name = 'position'
+    template_name = "task_manager/position_detail.html"
+    context_object_name = "position"
 
 
 class PositionCreateView(LoginRequiredMixin, generic.CreateView):
@@ -222,13 +222,13 @@ class PositionCreateView(LoginRequiredMixin, generic.CreateView):
 
 class PositionUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Position
-    template_name = 'task_manager/position_form.html'
-    fields = ['name']
+    template_name = "task_manager/position_form.html"
+    fields = ["name"]
 
 
 class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Position
-    template_name = 'task_manager/position_confirm_delete.html'
+    template_name = "task_manager/position_confirm_delete.html"
     success_url = reverse_lazy("task_manager:position-list")
 
     def get_context_data(self, **kwargs):
@@ -240,26 +240,26 @@ class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     model = TaskType
-    template_name = 'task_manager/task_type_list.html'
-    context_object_name = 'task_type'
+    template_name = "task_manager/task_type_list.html"
+    context_object_name = "task_type"
 
 
 class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
     model = TaskType
     fields = "__all__"
     success_url = reverse_lazy("task_manager:task-type-list")
-    template_name = 'task_manager/task_type_form.html'
+    template_name = "task_manager/task_type_form.html"
 
 
 class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = TaskType
-    template_name = 'task_manager/task_type_confirm_delete.html'
-    success_url = reverse_lazy('task_manager:task-type-list')
+    template_name = "task_manager/task_type_confirm_delete.html"
+    success_url = reverse_lazy("task_manager:task-type-list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         task_type = self.get_object()
-        context['related_tasks'] = Task.objects.filter(task_type=task_type)
+        context["related_tasks"] = Task.objects.filter(task_type=task_type)
         return context
 
 
@@ -267,18 +267,18 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
     model = Project
     fields = "__all__"
     success_url = reverse_lazy("task_manager:task-list")
-    template_name = 'task_manager/project_form.html'
+    template_name = "task_manager/project_form.html"
 
 
 class TeamCreateView(LoginRequiredMixin, generic.CreateView):
     model = Team
     form_class = TeamForm
     success_url = reverse_lazy("task_manager:index")
-    template_name = 'task_manager/team_form.html'
+    template_name = "task_manager/team_form.html"
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        members = form.cleaned_data['members']
+        members = form.cleaned_data["members"]
         for member in members:
             member.team = self.object
             member.save()
