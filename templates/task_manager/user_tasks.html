@@ -1,0 +1,77 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} About {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<main>
+
+  <!-- Hero -->
+  <section class="section-header bg-secondary text-white" style="padding: 45px 0;">
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-12 col-md-7 col-lg-6 text-center text-md-left">
+          <h2 class="display-2 mb-3" style="font-size: 2rem;"><br class="d-none d-md-inline">Tasks Assigned to {{ request.user.username }}</h2>
+        </div>
+      </div>
+    </div>
+    <figure class="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
+      <svg class="fill-white" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 43.4" style="enable-background:new 0 0 1920 43.4;" xml:space="preserve">
+        <path d="M0,23.3c0,0,405.1-43.5,697.6,0c316.5,1.5,108.9-2.6,480.4-14.1c0,0,139-12.2,458.7,14.3 c0,0,67.8,19.2,283.3-22.7v35.1H0V23.3z"></path>
+      </svg>
+    </figure>
+  </section>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Active Tasks</h3>
+        {% if user_task_list %}
+          <ul class="list-group">
+            {% for task in user_task_list %}
+              {% if not task.is_completed %}
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center ">
+                    <div>
+                      <a href="{% url 'task_manager:task-detail' task.pk %}">{{ task.name }}</a> - {{ task.get_priority_display }}
+                    </div>
+                    {% if task.deadline < deadline_warning_date %}
+                      <span class="badge bg-danger">Deadline: {{ task.formatted_deadline }} - Task is due!</span>
+                    {% endif %}
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No active tasks assigned.</p>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <h3>Completed Tasks</h3>
+        {% if user_task_list %}
+          <ul class="list-group">
+            {% for task in user_task_list %}
+              {% if task.is_completed %}
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <a href="{% url 'task_manager:task-detail' task.pk %}">{{ task.name }}</a> - {{ task.get_priority_display }}
+                    </div>
+                    <span class="badge bg-success">Completed</span>
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No completed tasks assigned.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+{% include 'includes/preloader.html' %}
+{% block content %}
+<section class="section-header bg-secondary text-white" style="padding: 55px 0;">
+  <div class="container">
+    <div class="row justify-content-between align-items-center">
+      <div class="col-12 col-md-7 col-lg-6 text-center text-md-left">
+        <h3 class="display-2 mb-4" style="font-size: 2rem;">
+        </h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2>{% block title %} Task Detail: {{ task.name }} {% endblock %}</h2>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><strong>Description:</strong> {{ task.description }}</p>
+          <p class="card-text"><strong>Deadline:</strong> {{ task.deadline }}</p>
+          <p class="card-text"><strong>Priority:</strong> {{ task.priority }}</p>
+          <p class="card-text"><strong>Task Type:</strong> {{ task.task_type }}</p>
+          <p class="card-text"><strong>Status:</strong> {% if task.is_completed %} Completed {% else %} In Progress {% endif %}</p>
+          <p class="card-text"><strong>Assignees:</strong>
+            <ul>
+              {% for assignee in task.assignees.all %}
+              <li><a href="{% url 'task_manager:worker-detail' pk=assignee.id %}">{{ assignee.username }}</a></li>
+              {% endfor %}
+            </ul>
+          </p>
+          <p class="card-text"><strong>Tags:</strong>
+            {% for tag in task.tags.all %}
+            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-warning animate-up-2">Edit Task</a>
+          <a href="{% url 'task_manager:task-delete' pk=task.id %}" class="btn btn-danger animate-up-2">Delete Task</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

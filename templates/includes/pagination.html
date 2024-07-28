@@ -1,0 +1,43 @@
+{% load query_transform %}
+<div class="container">
+  <nav aria-label="Templates page navigation">
+    <ul class="pagination justify-content-center">
+      {% if is_paginated %}
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a href="?{% query_transform request page=page_obj.previous_page_number %}" class="page-link">Previous</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">Prev</span>
+          </li>
+        {% endif %}
+
+        {% for num in paginator.page_range %}
+          {% if page_obj.number == num %}
+            <li class="page-item active">
+              <span class="page-link">{{ num }}</span>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a href="?{% query_transform request page=num %}" class="page-link">{{ num }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a href="?{% query_transform request page=page_obj.next_page_number %}" class="page-link">Next</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">Next</span>
+          </li>
+        {% endif %}
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

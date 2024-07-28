@@ -1,0 +1,71 @@
+{% include 'layouts/meta.html' %}
+<body>
+
+
+  {% include 'includes/scripts.html' %}
+
+    <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %} {% endblock javascripts %}
+
+</body>
+
+{% block content %}
+
+<main>
+<script src="{{ ASSETS_ROOT }}/vendor/@popperjs/core/dist/umd/popper.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/vendor/headroom.js/dist/headroom.min.js"></script>
+
+<!-- Vendor JS -->
+<script src="{{ ASSETS_ROOT }}/vendor/onscreen/dist/on-screen.umd.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/vendor/jarallax/dist/jarallax.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/vendor/vivus/dist/vivus.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- Pixel JS -->
+<script src="{{ ASSETS_ROOT }}/js/pixel.js"></script>
+
+    <!-- Hero -->
+
+
+{% load crispy_forms_filters %}
+
+<div class="container mt-5">
+  <h1>
+    <a href="{% url 'task_manager:task-list' %}" class="btn btn-tertiary me-3 animate-up-2">
+      <span class="ms-2"><span class="fas fa-arrow-left"></span></span>
+    </a>
+    {{ object|yesno:"Update,Create" }} task
+  </h1>
+
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <!-- Render all fields except deadline with crispy_forms -->
+    {% for field in form.visible_fields %}
+      {% if field.name != 'deadline' %}
+        <div class="form-group">
+          {{ field|as_crispy_field }}
+        </div>
+      {% else %}
+        <div class="form-group">
+          <label class="h6" for="exampleInputDate1">Deadline*</label>
+          <div class="input-group mb-4">
+            <span class="input-group-text" id="basic-addonDate1"><span class="fas far fa-calendar-alt"></span></span>
+            <input class="form-control" data-datepicker="" id="exampleInputDate1" name="deadline" placeholder="Select date" type="text" aria-label="Date with icon left">
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Datepicker field for deadline -->
+
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+</div>
+
+{% endblock %}

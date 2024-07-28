@@ -1,0 +1,18 @@
+{% include 'layouts/meta.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>
+    <a href="{% url 'task_manager:position-list' %}" class="btn btn-tertiary me-3 animate-up-2">
+      <span class="ms-2"><span class="fas fa-arrow-left"></span></span>
+    </a>
+    {{ object|yesno:"Update,Create" }} position
+  </h1>
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+</div>
+{% endblock %}
