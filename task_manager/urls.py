@@ -30,7 +30,7 @@ urlpatterns = [
     path("", index, name="index"),
     path("tasks/assigned/", UserTaskListView.as_view(), name="user-tasks"),
     path("tasks/", TaskListView.as_view(), name="task-list"),
-    path("tasks/<int:pk>", TaskDetailView.as_view(), name="task-detail"),
+    path("tasks/<int:pk>/", TaskDetailView.as_view(), name="task-detail"),
     path("tasks/create/", TaskCreateView.as_view(), name="task-create"),
     path(
         "tasks/<int:pk>/update/",
@@ -50,7 +50,7 @@ urlpatterns = [
 
     path("workers/", WorkerListView.as_view(), name="worker-list"),
     path(
-        "workers/<int:pk>",
+        "workers/<int:pk>/",
         WorkerDetailView.as_view(),
         name="worker-detail"
     ),
