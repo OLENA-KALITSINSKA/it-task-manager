@@ -44,7 +44,8 @@ class Worker(AbstractUser):
         Position,
         on_delete=models.CASCADE,
         null=True,
-        blank=True
+        blank=True,
+        related_name="workers"
     )
     team = models.ForeignKey(
         Team,
@@ -74,9 +75,10 @@ class Task(models.Model):
     task_type = models.ForeignKey(
         TaskType,
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        related_name="tasks"
     )
-    assignees = models.ManyToManyField(Worker)
+    assignees = models.ManyToManyField(Worker, related_name="tasks")
     tags = models.ManyToManyField(Tag, related_name="tasks", blank=True)
     project = models.ForeignKey(
         Project,
