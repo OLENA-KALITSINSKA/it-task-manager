@@ -1,0 +1,20 @@
+{% include 'layouts/meta.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <div class="card shadow-lg border-0 rounded-lg">
+        <div class="card-body p-4">
+          <h1 class="h4 text-gray-900 mb-4">You have been logged out</h1>
+          <p class="mb-4">You have successfully logged out of your account. If you want to log in again, please click the button below.</p>
+          <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+            <span class="fas fa-sign-in-alt mr-2"></span> Login Again
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% include 'layouts/meta.html' %}
+<body>
+
+  {% include 'includes/scripts.html' %}
+
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %} {% endblock javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/vendor/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/vendor/headroom.js/dist/headroom.min.js"></script>
+
+  <!-- Vendor JS -->
+  <script src="{{ ASSETS_ROOT }}/vendor/onscreen/dist/on-screen.umd.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/vendor/jarallax/dist/jarallax.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/vendor/vivus/dist/vivus.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <!-- Pixel JS -->
+  <script src="{{ ASSETS_ROOT }}/js/pixel.js"></script>
+
+  {% block content %}
+  <main>
+    <div class="container">
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-6 mt-8">
+          <h1>Delete task type "{{ object.name }}"?</h1>
+          <form action="" method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="submit" value="Yes" class="btn btn-danger">
+          </form>
+          <a href="{% url 'task_manager:task-type-list' %}" class="btn btn-tertiary me-3 animate-up-2 d-inline-flex align-items-center">No, turn back <span class="ms-2"></span></a>
+        </div>
+        <div class="col-md-6">
+          {% if related_tasks %}
+            <div>
+              <p class="text-center">This task type is associated with the following tasks:</p>
+              <ul>
+                {% for task in related_tasks %}
+                  <li class="list-group-item"><a href="{% url 'task_manager:task-detail' pk=task.pk %}">{{ task.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </main>
+  {% endblock %}
+
+</body>

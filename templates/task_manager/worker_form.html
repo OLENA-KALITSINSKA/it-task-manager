@@ -1,0 +1,21 @@
+{% include 'layouts/meta.html' %}
+
+<body>
+
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <div class="container">
+    <h1>
+      <a href="{% url 'task_manager:worker-list' %}" class="btn btn-tertiary me-3 animate-up-2">
+        <span class="ms-2"><span class="fas fa-arrow-left"></span></span>
+      </a>
+      {{ object|yesno:"Update,Create" }} worker
+    </h1>
+    <form action="" method="post" novalidate>
+      {% csrf_token %}
+      {{ form|crispy }}
+      <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<main>
+  <section class="section-header bg-secondary text-white" style="padding: 55px 0;">
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-12 col-md-7 col-lg-6 text-center text-md-left">
+          <h3 class="display-2 mb-4" style="font-size: 2rem;">
+            <br class="d-none d-md-inline">Position List
+            <a href="{% url 'task_manager:position-create' %}" class="btn btn-tertiary me-3 animate-up-2">
+              Create position <span class="ms-2"></span>
+            </a>
+          </h3>
+        </div>
+      </div>
+    </div>
+    <figure class="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
+      <svg class="fill-white" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 43.4" style="enable-background:new 0 0 1920 43.4;" xml:space="preserve">
+        <path d="M0,23.3c0,0,405.1-43.5,697.6,0c316.5,1.5,108.9-2.6,480.4-14.1c0,0,139-12.2,458.7,14.3 c0,0,67.8,19.2,283.3-22.7v35.1H0V23.3z"></path>
+      </svg>
+    </figure>
+  </section>
+
+  <div class="container mt-4">
+    <div class="row">
+      {% if positions %}
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Workers</th>
+          <th>Delete</th>
+        </tr>
+
+        {% for position in positions %}
+        <tr>
+          <td>{{ position.id }}</td>
+          <td>{{ position.name }}</td>
+          <td>
+            {% if position.worker_set.exists %}
+            <div>
+              {% for worker in position.worker_set.all %}
+              <div style="margin-bottom: 5px;">
+                <a href="{% url 'task_manager:worker-detail' pk=worker.id %}">
+                  {{ worker.first_name }} {{ worker.last_name }}
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            No workers assigned
+            {% endif %}
+          </td>
+          <td>
+            <a style="color: red" href="{% url 'task_manager:position-delete' pk=position.id %}">
+              Delete
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <p>There are no positions in the service.</p>
+      {% endif %}
+    </div>
+  </div>
+</main>
+{% endblock %}
