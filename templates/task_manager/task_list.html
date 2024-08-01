@@ -1,0 +1,134 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} About {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<main>
+  <!-- Hero -->
+  <section class="section-header bg-secondary text-white" style="padding: 55px 0;">
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-12 col-md-7 col-lg-6 text-center text-md-left">
+          <h3 class="display-2 mb-4" style="font-size: 2rem;">
+            <br class="d-none d-md-inline">
+            Task list
+            <a href="{% url 'task_manager:task-create' %}" class="btn btn-tertiary me-3 animate-up-2">
+              Create new task <span class="ms-2"><span class="fas fa-arrow-right"></span></span>
+            </a>
+          </h3>
+        </div>
+        <div class="col-12 col-md-5 d-none d-md-block text-center">
+          <img src="{{ ASSETS_ROOT }}/img/illustrations/about-illustration.svg" alt="" style="max-width: 300px; height: 150px; margin-top: 20px;">
+        </div>
+      </div>
+    </div>
+    <figure class="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
+      <svg class="fill-white" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 43.4" style="enable-background:new 0 0 1920 43.4;" xml:space="preserve">
+        <path d="M0,23.3c0,0,405.1-43.5,697.6,0c316.5,1.5,108.9-2.6,480.4-14.1c0,0,139-12.2,458.7,14.3 c0,0,67.8,19.2,283.3-22.7v35.1H0V23.3z"></path>
+      </svg>
+    </figure>
+  </section>
+  <!-- End Hero -->
+
+  <div class="container mt-4">
+    <div class="row">
+      <!-- Task Table -->
+      <div class="col-md-7 mb-3">
+        {% if task_list %}
+        <div class="table-responsive-sm">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Task type</th>
+                <th>Done</th>
+                <th>Worker</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for task in task_list %}
+              <tr>
+                <td>{{ task.id }}</td>
+                <td><a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a></td>
+                <td>{{ task.task_type }}</td>
+                <td class="cell-{% if task.is_completed %}completed-true{% else %}completed-false{% endif %}">
+                  <span class="{% if task.is_completed %}completed-true{% else %}completed-false{% endif %}">
+                    {{ task.is_completed }} {% if user == task %} (Me){% endif %}
+                  </span>
+                </td>
+                <td>
+                  {% for assignee in task.assignees.all %}
+                  <a href="{% url 'task_manager:worker-detail' pk=assignee.id %}">{{ assignee.username }}</a>{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            {% block pagination %}
+            {% include "includes/pagination.html" %}
+            {% endblock %}
+          </div>
+        </div>
+        {% else %}
+        <p>There are no tasks in the service.</p>
+        {% endif %}
+      </div>
+      <!-- End Task Table -->
+
+      <!-- Search Form Sidebar -->
+      <div class="col-md-5 mb-3">
+        <div class="col-md-20">
+          {% include "includes/search.html" %}
+        </div>
+        <div class="col-md-14">
+          {% include 'includes/progress_bar.html' with completed_percentage=completed_percentage %}
+        </div>
+      </div>
+      <!-- End Search Form Sidebar -->
+    </div>
+
+    <!-- Create New Task Type Button -->
+    <div class="row">
+      <div class="col-12 col-md-7 col-lg-6 text-center text-md-left">
+        <a href="{% url 'task_manager:task-type-create' %}" class="btn btn-tertiary me-3 animate-up-2">
+          Create new task type <span class="ms-2"><span class="fas fa-arrow-right"></span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Sections -->
+  <section class="section section-lg pt-0">
+    <!-- Add content here if needed -->
+  </section>
+
+  <section class="section py-0">
+    <div class="container z-2">
+      <!-- Add content here if needed -->
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section section-lg">
+    <div class="container">
+      <!-- Contact Form or Additional Content -->
+      <!-- Replace with your contact form or additional content -->
+    </div>
+  </section>
+  <!-- End Contact Section -->
+
+  {% include 'includes/footer.html' %}
+</main>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
