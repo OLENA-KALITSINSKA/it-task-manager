@@ -30,7 +30,7 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
 ASSETS_ROOT = os.getenv("ASSETS_ROOT", "/static/assets")
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "it-task-manager-qef9.onrender.com"]
 
 
 # Application definition
