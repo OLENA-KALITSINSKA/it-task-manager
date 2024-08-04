@@ -38,9 +38,9 @@
           <td>{{ position.id }}</td>
           <td>{{ position.name }}</td>
           <td>
-            {% if position.worker_set.exists %}
+            {% if position.workers.exists %}
             <div>
-              {% for worker in position.worker_set.all %}
+              {% for worker in position.workers.all %}
               <div style="margin-bottom: 5px;">
                 <a href="{% url 'task_manager:worker-detail' pk=worker.id %}">
                   {{ worker.first_name }} {{ worker.last_name }}
