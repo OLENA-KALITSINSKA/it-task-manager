@@ -7,6 +7,9 @@ PriorityPath is a comprehensive task management application built with Django, d
 
 PriorityPath provides a robust platform for managing tasks and projects within an organization. The application supports features such as task creation, updating, deletion, and completion tracking. It also allows for managing workers, teams, and project details, with advanced functionalities like search, dynamic progress bars, and deadline warnings.
 
+## Check it out!
+[it task manager project deployed to Render](https://it-task-manager-qef9.onrender.com)
+
 ## Technologies Used
 
 - **Django**: A high-level Python web framework that encourages rapid development and clean, pragmatic design.
