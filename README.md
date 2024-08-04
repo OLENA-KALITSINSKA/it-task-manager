@@ -10,8 +10,8 @@ PriorityPath provides a robust platform for managing tasks and projects within a
 ## Check it out!
 
 [it task manager project deployed to Render](https://it-task-manager-qef9.onrender.com)
-username: admin
-password: 1234qwer.0
+`username: admin`
+`password: 1234qwer.0`
 
 ## Technologies Used
 
