@@ -19544,3 +19544,24 @@ blockquote {
       transform: rotate(90deg); }
     hr.horizontal.dark {
       background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)); } }
+
+.completed-true {
+    color: green;
+}
+
+.completed-false {
+    color: red;
+}
+
+.task-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+}
+
+.section {
+    position: relative; /* Ensures the section can be moved with respect to its normal position */
+    margin-top: -50px; /* Adjust this value as needed to lift the section */
+    padding-top: 50px; /* Optional: Adjust to ensure content is not hidden by negative margin */
+}
